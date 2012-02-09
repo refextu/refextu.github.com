@@ -1,0 +1,38 @@
+<html>
+  <body>
+	<p>Select device: <device type="audio_capture" id="media_device"></p>
+	<input type="button" id="record_ctl_but" value="Record" disabled></input>
+
+    <script>
+		// in window.onload
+		document.getElementById("media_device").onchange = function () {
+		    // ready to record
+		    audioStream = this.data;
+		    recordCtlBut.disabled = false;
+		};
+
+		// in window.onload
+		recordCtlBut = document.getElementById("record_ctl_but");
+		 
+		recordCtlBut.onclick = function () {
+		    if (!recorder) {
+		        recordCtlBut.value = "Stop";
+		        recorder = audioStream.record
+		        recordTimer = setTimeout(stopRecording, 10000);
+		    } else
+		        stopRecording();
+		};
+
+		function stopRecording() {
+		    clearTimeout(recordTimer);
+		    var audioFile = recorder.stop();
+		    useAudioFile(audioFile);
+		 
+		    recorder = null;
+		    recordCtlBut.value = "Record";
+		}
+    </script>
+
+
+  </body>
+</html>
